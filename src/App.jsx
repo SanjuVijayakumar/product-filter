@@ -40,12 +40,30 @@ function App() {
     fetchProducts();
   }, []);
 
+  const filteredProducts = products.filter((product) => {
+    
+    if (category === "all") {
+      return true;
+    }
+
+    return product.category === category;
+  });
+
+
+    console.log("Filtered Products:", filteredProducts);
+
+    const categories = [
+      "all",
+      ...new Set(products.map((product) => product.category)),
+    ];
+
   return (
     <>
       <Header />
 
       <main className="mx-auto max-w-7xl px-6 py-10">
         <FilterBar 
+        categories={categories}
           category={category}
           setCategory={setCategory}
           minPrice={minPrice}
@@ -54,6 +72,12 @@ function App() {
           setMaxPrice={setMaxPrice}
           sort={sort}
           setSort={setSort}
+          onReset={() => {
+            setCategory("all");
+            setMinPrice("");
+            setMaxPrice("");
+            setSort("default");
+          }}
         />
 
         {/* Loading state */}
@@ -76,7 +100,7 @@ function App() {
 
         {/* Products State */}
         {!loading && !error && (
-          <ProductList products={products} />
+          <ProductList products={filteredProducts} />
         )}
       </main>
     </>
