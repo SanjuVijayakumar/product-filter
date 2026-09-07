@@ -5,6 +5,7 @@ import Header from './components/header/Header'
 import ProductList from './components/productList/ProductList'
 // import products from './data/products'
 import { getProducts } from './api/ProductApi'
+import Footer from './components/footer/Footer'
 
 function App() {
   const [products, setProducts] = useState([]);
@@ -144,6 +145,7 @@ function App() {
           <ProductList products={filteredProducts} />
         )}
       </main>
+      <Footer />
     </>
   )
 }
