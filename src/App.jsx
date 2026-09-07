@@ -40,13 +40,54 @@ function App() {
     fetchProducts();
   }, []);
 
-  const filteredProducts = products.filter((product) => {
+  // const filteredProducts = products.filter((product) => {
     
-    if (category === "all") {
-      return true;
+  //   if (category === "all") {
+  //     return true;
+  //   }
+
+  //   return product.category === category;
+  // });
+
+  const filteredProducts = products.filter((product) => {
+
+  if (category !== "all" && product.category !== category) {
+    return false;
+  }
+
+  if (minPrice && product.price < Number(minPrice)) {
+    return false;
+  }
+
+  if (maxPrice && product.price > Number(maxPrice)) {
+    return false;
+  }
+
+  return true;
+})
+.sort((a, b) => {
+    // Price: Low to High
+    if (sort === "price-low") {
+      return a.price - b.price;
     }
 
-    return product.category === category;
+    // Price: High to Low
+    if (sort === "price-high") {
+      return b.price - a.price;
+    }
+
+    // Name: A to Z
+    if (sort === "name-az") {
+      return a.title.localeCompare(b.title);
+    }
+
+    // Name: Z to A
+    if (sort === "name-za") {
+      return b.title.localeCompare(a.title);
+    }
+
+    // Default
+    return 0;
   });
 
 
